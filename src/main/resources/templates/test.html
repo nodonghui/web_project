@@ -1,0 +1,34 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+	
+	<h2>Test page</h2>
+	
+	<link href="https://vjs.zencdn.net/7.14.3/video-js.css" rel="stylesheet" />
+	    <script src="https://vjs.zencdn.net/7.14.3/video.min.js"></script>
+		
+		
+		<video id="my-video1" class="video-js" controls preload="auto" width="720" height="480">
+		    <source src="/test/hlsa0f1522a-b463-4d91-b90f-5aaff8b0e47c.mp4/master.m3u8" type="application/x-mpegURL">
+		</video>
+		
+		<video id="my-video2" class="video-js" controls preload="auto" width="1280" height="720">
+				    <source src="/test/hlsa0f1522a-b463-4d91-b90f-5aaff8b0e47c.mp4/master.m3u8" type="application/x-mpegURL">
+				</video>
+				
+		<video id="my-video3" class="video-js" controls preload="auto" width="1920" height="1080">
+						    <source src="/test/hlsa0f1522a-b463-4d91-b90f-5aaff8b0e47c.mp4/master.m3u8" type="application/x-mpegURL">
+				</video>
+		
+		<script>
+		    var player1 = videojs('my-video1');
+		    player1.play();
+			var player2 = videojs('my-video2');
+			player2.play();
+			var player3 = videojs('my-video3');
+			player3.play();
+		</script>
+		
+		
+		
+</div>
+</html>

@@ -1,0 +1,59 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" >
+		
+<div>
+    
+		
+		<div class="container-fluid">
+			        
+	
+        <h4 class="my-3">유저 정보</h4>
+		<div class="card my-3">
+       
+			<div class="my-3">
+            <div th:text="|userid : ${user.username}|"/>
+            <div th:text="|name : ${user.name}|"/>
+			</div>
+			
+			<div class =" my-3" id="box2">
+					<form th:object="${userModifyForm}" method="post" th:action="@{/user/modifyName}">
+						이름 변경
+						<input type="text" th:field="*{name}" id="name" >
+						<input type="submit" value="변경하기" >
+					</form>
+			</div>
+            
+      
+		
+		
+		<div class ="card my-3" id="box3">
+			<table class="table">
+				<tr>
+					<td>
+				<a th:href="@{/user/delete}">회원 탈퇴</a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+				<a th:href="@{/user/password_check}">비밀번호 변경</a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+			<a th:href="@{/user/userPost}">작성글 조회</a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+			<a th:href="@{/user/FavoritesFind}">즐겨찾기 조회</a>
+					</td>
+				</tr>
+		</table>
+		</div>
+		</div>
+</div>
+
+	
+</div>
+</html>
+	

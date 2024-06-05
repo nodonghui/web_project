@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Bootstrap CSS -->
+	    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+	    <!-- sbb CSS -->
+	    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+	<meta id="_csrf" name="_csrf" content="{{_csrf.token}}"/>
+	<meta id="_csrf_header" name="_csrf_header" content="{{_csrf.headerName}}"/>
+    <title>로스트 미디어 사이트</title>
+	<style>
+				a:link {
+				  color : black;
+				  text-decoration: none;
+				}
+				
+				a:visited {
+				  color : black;
+				  text-decoration: none;
+				}
+				a:hover {
+				  color : black;
+				  text-decoration: underline;
+				}
+	</style>
+</head>
+<body>
+	<nav th:replace="~{navbar :: navbarFragment}"></nav>	
+<!-- 기본 템플릿 안에 삽입될 내용 Start -->
+<th:block layout:fragment="content"></th:block>
+<!-- 기본 템플릿 안에 삽입될 내용 End -->
+<!-- bootstrap js-->
+<script th:src="@{/bootstrap.min.js}"></script>
+</body>
+
+<script type='text/javascript'>
+const delete_elements = document.getElementsByClassName("delete");
+Array.from(delete_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        if(confirm("정말로 삭제하시겠습니까?")) {
+            location.href = this.dataset.uri;
+        };
+    });
+});
+</script>
+</html>

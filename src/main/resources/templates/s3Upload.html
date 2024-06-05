@@ -1,0 +1,23 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+	
+	<form method="post"  th:action="@{/s3/upload}" enctype="multipart/form-data">
+		<label for="attachFile">첨부파일 : </label>
+		<input type="file"  name="attachfile" id="attachFile" enctype="multipart/form-data"/>
+		
+		
+		<input type="submit" value="저장하기" >
+			</form>
+			
+		<a th:href="@{/s3/download}">다운로드</a>	
+		
+		<p th:text=${url} ></p>
+		<img th:src="${url}" alt="image" />
+		
+		<a th:href="@{/s3/delete}">삭제</a>
+		
+		
+		
+</div>
+</html>
+

@@ -1,0 +1,131 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+	<style>
+		#textFile {
+			height: 25%;
+			width: 25%;
+		}
+		
+		#vote{
+			justify-content: center;
+		}
+	</style>
+	
+	<div class="container my-3">
+		
+	<!--제목-->	
+	<h2 class="border-bottom py-2" th:text="${post.title}"></h2> 
+	<!--저용량 파일 -->
+	<div class ="card my-3">
+		<div class="card-body">
+	<div class ="card my-3" id="textFile"  th:if="${fileTypeFlag ==0}" th:text="${uploadFileName}"></div>
+	<img th:if="${fileTypeFlag ==1}" th:src="${url}" alt="image" />
+	<video th:if="${fileTypeFlag==2}" th:src="${url}" alt="video" 	width="360px"
+			              height="240px"
+			              autoplay
+			              muted
+			              controls>></video>
+	
+	<!--대용량 파일 -->
+	<link href="https://vjs.zencdn.net/7.14.3/video-js.css" rel="stylesheet" />
+		    <script src="https://vjs.zencdn.net/7.14.3/video.min.js"></script>
+	<!--		
+	<video th:if="${largeFileFlag ==1}"  th:src="|http://localhost:8080/video/${post.id}|"
+			              width="360px"
+			              height="240px"
+			              autoplay
+			              muted
+			              controls>
+	</video>
+	-->
+	<video th:if="${largeFileFlag ==1}" id="my-video" class="video-js" controls preload="auto" width="360px" height="240px"
+	>
+			    <source th:src="@{|/video/${post.id}/master.m3u8|}" type="application/x-mpegURL">
+			</video>
+			<script>
+			    var player = videojs('my-video');
+			    player.play();
+			</script>
+	
+	
+	
+	
+	<div class="card-text" style="white-space: pre-line;" th:text="${post.contents}"></div>
+	<div class="d-flex justify-content-end">
+		<div class="badge bg-light text-dark p-2 text-start">
+	   <span th:if="${post.author != null}" th:text="${post.author.username}"></span>
+	
+	<div th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+	</div>
+	</div>
+	<div class="my-3">
+	<a id="vote" th:href="@{|/post/vote/${post.id}|}" class="recommend btn btn-sm btn-outline-secondary" >
+	         추천
+	        <span  th:text="${#lists.size(post.voter)}"></span>
+	 </a>
+	 </div>
+	 
+		<div>
+			<a th:href="@{|/post/modify/${post.id}|}" class="btn btn-sm btn-outline-secondary"
+			sec:authorize="isAuthenticated()"
+			th:if="${post.author != null and #authentication.getPrincipal().getUsername() == post.author.username}"
+			 th:text="수정"></a>
+	 <a  href="javascript:void(0);" th:data-uri="@{|/post/delete/${post.id}|}"
+			                  class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+			                 th:if="${post.author != null and #authentication.getPrincipal().getUsername() == post.author.username}"
+			                 th:text="삭제"></a>
+								 
+	 	<a  th:href="@{|/user/Favorites/${post.id}|}"class="Favorites btn btn-sm btn-outline-secondary">
+		스크랩
+		</a>
+		<a  th:href="@{|/user/FavoritesDelete/${post.id}|}" class="Favorites btn btn-sm btn-outline-secondary">
+		스크랩 해제
+		</a>
+		
+		<a  th:if="${fileTypeFlag !=-1}" th:href="@{|/lowfile/download/${post.id}|}"
+		class="Favorites btn btn-sm btn-outline-secondary">파일 다운로드</a>
+		
+		<a th:if="${largeFileFlag ==1}" th:href="@{|/largefile/download/${post.id}|}"
+		class="Favorites btn btn-sm btn-outline-secondary">영상 다운로드</a>
+		</div>
+		<h5 class="border-bottom my-3 py-2" 
+		        th:text="|${#lists.size(post.commentList)}개의 답변이 있습니다.|"></h5>
+		    <!-- 답변 반복 시작 -->
+		    <div class="card my-3" th:each="comment : ${post.commentList}">
+		        <div class="card-body">
+					
+		            <div class="card-text" style="white-space: pre-line;" th:text="${comment.contents}"></div>
+					<div class="my-3">
+						<a th:href="@{|/comment/vote/${comment.id}|}" class="recommend btn btn-sm btn-outline-secondary"
+							>
+							
+						 추천
+						 <span class="badge rounded-pill bg-success" th:text="${#lists.size(comment.voter)}"></span>
+						 </a>
+										</div>
+		            <div class="d-flex justify-content-end">
+		                <div class="badge bg-light text-dark p-2 text-start">
+							                <div class="mb-2">
+							                    <span th:if="${post.author != null}" th:text="${post.author.username}"></span>
+							                </div>
+											
+		                    <div th:text="${#temporals.format(comment.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+		                </div>
+						
+		            </div>
+		        </div>
+				
+		    </div>
+		 <!-- 답변 작성 -->
+		<form th:action="@{|/comment/create/${post.id}|}" method="post" class="my-3" th:object="${commentForm}">
+			<div th:replace="~{form_errors :: formErrorsFragment}"></div>
+			<textarea sec:authorize="isAnonymous()" disabled th:field="*{contents}" class="form-control" rows="5"></textarea>
+			        <textarea sec:authorize="isAuthenticated()" th:field="*{contents}" class="form-control" rows="5"></textarea>
+			
+		    <input type="submit" value="답변등록" class="btn btn-primary my-2">
+		</form>
+			</div>
+		</div>
+	</div>
+</div>
+</html>
